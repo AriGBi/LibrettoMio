@@ -8,6 +8,8 @@
 #print(Grifondoro)
 from dataclasses import dataclass
 import flet
+import mysql.connector
+import sys
 from scuola import Student, Person, Teacher, Casa
 
 from voto.voto import Voto, Libretto #la classe voto si trova nel pacchetto voto, quindi per prenderla faccio voto.voto

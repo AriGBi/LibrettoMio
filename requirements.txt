@@ -1,0 +1,5 @@
+#usiamo questo file per poter elencare tutte le librerie necessarie con la versione corrente
+#quando si creano dei nuovi progetti conviene mettere il file requirements.txt cosi ho tutte le librerie a portata di mano
+flet~=0.27.4
+mysql-connector-python~=9.2.0
+networkx

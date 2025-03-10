@@ -42,6 +42,9 @@ class Student(Person): #classe Studente che eredita da Person
    def prettyPrint(self):
       print("Voglio stampare meglio")
 
+   def copy(self):
+      return Student(self.nome, self.cognome, self.eta, self.capelli, self.occhi, self.casa, self.animale, self.incantesimo)
+
 class Teacher(Person):
    def __init__(self,nome,cognome,eta,capelli,occhi,casa,materia, incantesimo="Non ancora definito"):
       super().__init__(nome,cognome,eta,capelli,occhi,casa,incantesimo)

@@ -1,3 +1,4 @@
+import operator
 from dataclasses import dataclass
 import math
 import flet
@@ -21,9 +22,12 @@ import flet
 #         else:
 #             return f"In {self.materia} hai preso {self.punteggio} il {self.data}"
 
-@dataclass #devo usare decoratore dataclass prima della classe successiva per indicare che è una dataclass
+@dataclass(order=True) #devo usare decoratore dataclass prima della classe successiva per indicare che è una dataclass
 #la dataclass permette di contenere i metodi minimi utili per una classe senza dover scrivere troppe rige
 #si deve indicare il TIPO di variabile anche se Python è un linguaggio non tipizzato, si fa solo per capire se si sta sagliando qualcosa
+
+#mettendo @dataclass(eq =False) sto dicendo di implementare tutti i metodi minimi tranne __eq__
+#mettendo @dataclass(order=True) dico che la classe Voto è ordinabile
 class Voto:
     materia: str
     punteggio: int
@@ -43,6 +47,9 @@ class Voto:
     def copy(self): #è un metodo che crea un NUOVO VOTO (con nuovo riferimento) ma con gli stessi attributi del voto corrente
         # è un metodo FACTORING --> metodo della classe che crea un nuovo oggetto della classe.
         return Voto(self.materia, self.punteggio, self.data, self.lode)
+
+    def __hash__(self):
+        return hash((self.materia, self.punteggio,self.lode))
 
 class Libretto:
    def __init__(self, proprietario, voti=[]):
@@ -171,6 +178,75 @@ class Libretto:
                v.punteggio = 30
 
        return nuovo
+
+   def sortByMateria(self): #metodo agisce sul libretto e ordina la lista contenente nel libretto
+       #self.voti.sort(key= estraiMateria) --> Opzione in cui creo un metodo estraiMateria in cui prendo voto.materia
+       self.voti.sort(key=operator.attrgetter("materia")) #equivale a fare voto.materia
+
+   def cancellaInferiori(self, punteggio):
+       """
+       Questo metodo agisce sul libretto corrente eliminando ruttu i voti inferiori al parametro punteggio
+       :param punteggio: intero indicante il valore minimo del punteggio accettato
+       :return:
+       """
+       #modo 1:
+       # for i in range(len(self.voti)):
+       #     if self.voti[i].punteggio < punteggio:
+       #         self.voti.pop(i)
+       #T=0 -- [18 18 18 26 27 28] i=0
+       #T=1 -- [18 18 26 27 28] i=1
+       #T=2 -- [18 26 27 28] i=2
+       # ora controlla il 26 perchè è in posizione 2, ma è >24 e quindi non succede niente
+       #out -- [18 26 27 28] --> non va bene perchè non mi ha eliminato il 18
+
+       #modo 2:
+       # for v in self.voti:
+       #     if v.punteggio < punteggio:
+       #         self.voti.remove(v)
+
+       #modo 3:
+       nuovo=[]
+       for v in self.voti:
+            if v.punteggio >= punteggio:
+               nuovo.append(v) #sto riutilizzando gli oggetti che ho, non ne sto creando di nuovi
+       self.voti=nuovo #modifico i voti del libretto attuale
+
+
+
+
+   #def sortByVoto(self):
+
+
+    # Opzione 1: creo due metodi di stampa, che prima ordinano e poi stampano --> non va bene perchè mischio sorting e print
+    # Opzione 2: creo due metodi che ordinano la lista di self e poi un'unico metodo di stampa --> non va bene perchè modificherei la lista
+    # Opzione 3: creo due metodi che si fanno la copia della lista, la ordinano e la restituiscono. Poi un altro metodo si occuperà di stampare le niuove liste --> opzione più versatile perchè lavoro su delle copie
+    # Opzione 4: creo una shallow copy (copio solo la lista e gli oggetti dentro rimangono quelli vecchi--> agisco solo sulla lista e non sugli oggetti) di self.voti e ordino quella
+
+   # implemento Opzione2:
+   def creaLibOrdiantoPerVoto(self):
+       nuovo = self.copy()
+       #nuovo.sort(key=operator.attrgetter("punteggio")) #non funziona bene perchè noi abbiamo anche il campo lode, serve una funzione che
+       nuovo.voti.sort(key=lambda v: (v.punteggio,v.lode), reverse =True) #ordina prima per il primo campo della tupla e poi per il secondo (Python sa ordinare le tuple)
+       # reverse è un parametro della funzione sort che lo fa al contrario
+       return nuovo
+
+   #implemento Opzione 3:
+   def creaLibOrdinatoPerMateria(self):
+       """
+       Crea un nuovo oggetto libretto e lo ordina per materia
+       :return: nuova istanza dell'oggetto libretto
+       """
+       nuovo = self.copy()
+       nuovo.sortByMateria()
+
+       return nuovo
+def estraiMateria(voto):
+    """
+    Questa materia restituisce il campo materia dell'oggetto voto
+    :param voto: istanza della classe Voto
+    :return: stringa rappresentante il nome della materia
+    """
+    return voto.materia
 
 def testVoto():
         v1 = Voto("Trasfigurazione", 24, "2022-02-13", False)

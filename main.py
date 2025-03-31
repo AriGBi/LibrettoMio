@@ -12,7 +12,7 @@ import mysql.connector
 import sys
 from scuola import Student, Person, Teacher, Casa
 
-from voto.voto import Voto, Libretto #la classe voto si trova nel pacchetto voto, quindi per prenderla faccio voto.voto
+from voto.modello import Voto, Libretto #la classe voto si trova nel pacchetto voto, quindi per prenderla faccio voto.voto
 # import voto  --> impportiamo un solo nome. cioè il nome del modulo "voto" e poi accedo alle varie
 #                  classi con la notazione voto.Voto o voto.Libretto
 
@@ -143,15 +143,15 @@ for p in personaggi:
 print(grifondoro) #dopo aver aggiunto le persone
 
 #qui non sto facendo dei test come in testVoto, sto proprio creando gli oggetti Voto e Libretto che salvo
-v1 = Voto("Trasfigurazione", 24, "2022-02-13", False)
-v2 = Voto("Pozioni", 30, "2022-02-17", True)
-v3 = Voto("Difesa contro le arti oscure", 27, "2022-04-13", False)
-print(v1)
-
-mylib = Libretto(Harry, [v1, v2])
-print(mylib)
-mylib.append(v3)
-print(mylib)
+# v1 = Voto("Trasfigurazione", 24, "2022-02-13", False)
+# v2 = Voto("Pozioni", 30, "2022-02-17", True)
+# v3 = Voto("Difesa contro le arti oscure", 27, "2022-04-13", False)
+# print(v1)
+#
+# mylib = Libretto(Harry, [v1, v2])
+# print(mylib)
+# mylib.append(v3)
+# print(mylib)
 # print(Lily._cognome) # NOOOO!
 
 # print(Lily._Person__prova) NOOOOOOO!

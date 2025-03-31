@@ -1,16 +1,20 @@
 #contiene solo una classe che si chiama Controller
 #nel controller vanno le funzioni di handle!!
-from view import View
-from voto.voto import Libretto, Voto
+from UI.view import View
+from voto.modello import Libretto
+
 from scuola import Student
 import flet as ft
+
+from voto.voto import Voto
+
 
 class Controller:
     def __init__(self,v:View):
         self._view=v
         self._student=Student("Harry","Potter", 11,"castani","castani","Grifondoro","civetta", "Expecto Patronum")
         self._model=Libretto(self._student,[]) #la classe libretto l'ho chiamata model
-        self._fillLibretto() #riempio il libretto
+
 
 
     def handleAggiungi(self,e):
@@ -67,9 +71,10 @@ class Controller:
         #per prendere lo studente, lo devo prendere dal modello e quindi importare il modello come attributo
         return str(self._student)
 
-    def _fillLibretto(self): #si mettte il il trattino davanti per dire che questo metodo viene usato solo in questa classe
-        v1 = Voto("Difesa contro le arti oscure", 30, "2022-01-03", True)
-        v2 = Voto("Babbanologia", 22, "2022-02-12", False)
-        self._model.append(v1)
-        self._model.append(v2)
-        self._model.append(Voto("Pozioni", 22, "2022-06-14", False))
+    # def _fillLibretto(self): #si mettte il il trattino davanti per dire che questo metodo viene usato solo in questa classe
+    #     v1 = Voto("Difesa contro le arti oscure", 30, "2022-01-03", True)
+    #     v2 = Voto("Babbanologia", 22, "2022-02-12", False)
+    #     self._model.append(v1)
+    #     self._model.append(v2)
+    #     self._model.append(Voto("Pozioni", 22, "2022-06-14", False))
+    #questo metodo non va nel controller ma va nel MODELLO una volta che prendo i dati del libretto dal database

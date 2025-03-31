@@ -1,4 +1,4 @@
-from voto.voto import Voto,Libretto
+from voto.modello import Voto,Libretto
 
 #faccio un file a parte per testare un modulo (volendo posso farlo direttamente all'interno del modulo --> ma il modulo non dovrebbe teoricamente contenere nulla che sia eseguibile)
 v1 = Voto("Trasfigurazione", 24, "2022-02-13", False)
